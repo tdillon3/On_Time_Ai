@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>4be94aed-46ef-464b-be18-a7e9d86d7339</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Senior_Project.py</StartupFile>
+    <StartupFile>api_integration.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +21,12 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Senior_Project.py" />
+    <Compile Include="api_integration.py" />
+    <Compile Include="app.py" />
+    <Compile Include="data_collection.py" />
+    <Compile Include="data_preprocessing.py" />
+    <Compile Include="model_building.py" />
+    <Compile Include="model_evaluation.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
