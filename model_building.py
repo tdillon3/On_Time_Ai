@@ -44,15 +44,23 @@ def find_closest_weather_station(flight_row, weather_data):
 print("Matching flights with the closest weather stations based on proximity...")
 matched_weather = flight_data.apply(lambda flight_row: find_closest_weather_station(flight_row, weather_data), axis=1)
 
+# Rename weather data latitude and longitude columns before merging
+matched_weather = matched_weather.rename(columns={'latitude': 'weather_latitude', 'longitude': 'weather_longitude'})
+
 # Concatenate the weather data to flight data
 merged_data = pd.concat([flight_data.reset_index(drop=True), matched_weather.reset_index(drop=True)], axis=1)
 
 # Label: create a binary target for flight delay (1 = delayed, 0 = on-time)
 merged_data['delayed'] = merged_data['baro_altitude'].apply(lambda x: 1 if x > 10000 else 0)
 
-# Features (input data) and target variable
-X = merged_data[['temperature', 'humidity', 'wind_speed', 'latitude', 'longitude']]  # Features
-y = merged_data['delayed']  # Target
+# Save the merged data to a CSV file for future evaluation
+merged_data.to_csv("merged_flight_weather_data.csv", index=False)
+print("Merged data saved to merged_flight_weather_data.csv")
+
+# Define and print the feature columns for training
+feature_columns = ['temperature', 'humidity', 'wind_speed', 'latitude', 'longitude']
+X = merged_data[feature_columns]
+y = merged_data['delayed']
 
 # Split data into training and testing sets (80% train, 20% test)
 print("Splitting data into training and testing sets...")
@@ -82,3 +90,13 @@ joblib.dump(rf_model, 'random_forest_model.pkl')
 joblib.dump(svm_model, 'svm_model.pkl')
 
 print("Models have been trained and saved successfully.")
+
+# Save the feature columns to a file for consistency in evaluation
+with open("feature_columns.pkl", "wb") as f:
+    joblib.dump(feature_columns, f)
+
+print("Feature columns saved successfully.")
+
+# Save X_train to CSV for consistent evaluation later
+X_train.to_csv("X_train_features.csv", index=False)
+print("X_train features saved to X_train_features.csv")
