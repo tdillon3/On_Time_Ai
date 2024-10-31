@@ -68,7 +68,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # Train a Random Forest model
 print("Training Random Forest model...")
-rf_model = RandomForestClassifier()
+rf_model = RandomForestClassifier(class_weight='balanced')
 rf_model.fit(X_train, y_train)
 
 # Predictions and accuracy for Random Forest
@@ -77,7 +77,7 @@ print(f"Random Forest Accuracy: {accuracy_score(y_test, y_pred_rf)}")
 
 # Train an SVM model
 print("Training SVM model...")
-svm_model = SVC()
+svm_model = SVC(class_weight='balanced')
 svm_model.fit(X_train, y_train)
 
 # Predictions and accuracy for SVM
