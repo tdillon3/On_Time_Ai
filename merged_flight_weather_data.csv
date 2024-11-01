@@ -1,4 +1,4 @@
-icao24,callsign,origin_country,time_position,last_contact,longitude,latitude,baro_altitude,on_ground,velocity,heading,vertical_rate,geo_altitude,squawk,spi,position_source,extra_col_0,temperature,humidity,wind_speed,city,weather_latitude,weather_longitude,distance,delayed
+icao24,callsign,origin_country,time_position,last_contact,longitude,latitude,baro_altitude,on_ground,velocity,heading,vertical_rate,geo_altitude,squawk,spi,position_source,extra_col_0,temperature,humidity,wind_speed,city,latitude,longitude,distance,delayed
 aa3cbe,N759PA  ,United States,1729358007.0,1729358011,-111.9559,41.676,2156.46,False,53.08,176.67,0.98,,2286.0,,False,0,22.99,26,2.06,Los Angeles,34.0522,-118.2437,1010.3429728833366,0
 e8027d,LPE2813 ,Chile,1729358012.0,1729358012,-78.2139,-6.0994,11887.2,False,219.96,177.05,0.0,,12679.68,,False,0,20.2,40,1.79,New York,40.7128,-74.006,5201.001270322111,1
 a7250f,N56FA   ,United States,1729358012.0,1729358012,-120.1897,35.2427,2286.0,False,43.8,319.76,-0.65,,2377.44,,False,0,22.99,26,2.06,Los Angeles,34.0522,-118.2437,221.96038054693102,0

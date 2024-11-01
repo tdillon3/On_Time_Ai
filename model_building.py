@@ -44,20 +44,31 @@ def find_closest_weather_station(flight_row, weather_data):
 print("Matching flights with the closest weather stations based on proximity...")
 matched_weather = flight_data.apply(lambda flight_row: find_closest_weather_station(flight_row, weather_data), axis=1)
 
-# Rename weather data latitude and longitude columns before merging
-matched_weather = matched_weather.rename(columns={'latitude': 'weather_latitude', 'longitude': 'weather_longitude'})
-
 # Concatenate the weather data to flight data
 merged_data = pd.concat([flight_data.reset_index(drop=True), matched_weather.reset_index(drop=True)], axis=1)
 
+# Define extreme value thresholds
+EXTREME_TEMPERATURE = 45  # Celsius, upper bound
+MINIMUM_TEMPERATURE = -30  # Celsius, lower bound
+EXTREME_HUMIDITY = 90      # Percent
+EXTREME_WIND_SPEED = 25     # m/s
+
 # Label: create a binary target for flight delay (1 = delayed, 0 = on-time)
-merged_data['delayed'] = merged_data['baro_altitude'].apply(lambda x: 1 if x > 10000 else 0)
+def delay_label(row):
+    if (row['temperature'] >= EXTREME_TEMPERATURE or
+        row['temperature'] <= MINIMUM_TEMPERATURE or
+        row['humidity'] >= EXTREME_HUMIDITY or
+        row['wind_speed'] >= EXTREME_WIND_SPEED):
+        return 1
+    return 1 if row['baro_altitude'] > 10000 else 0
+
+merged_data['delayed'] = merged_data.apply(delay_label, axis=1)
 
 # Save the merged data to a CSV file for future evaluation
 merged_data.to_csv("merged_flight_weather_data.csv", index=False)
 print("Merged data saved to merged_flight_weather_data.csv")
 
-# Define and print the feature columns for training
+# Features (input data) and target variable
 feature_columns = ['temperature', 'humidity', 'wind_speed', 'latitude', 'longitude']
 X = merged_data[feature_columns]
 y = merged_data['delayed']
@@ -68,7 +79,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # Train a Random Forest model
 print("Training Random Forest model...")
-rf_model = RandomForestClassifier(class_weight='balanced')
+rf_model = RandomForestClassifier()
 rf_model.fit(X_train, y_train)
 
 # Predictions and accuracy for Random Forest
@@ -77,7 +88,7 @@ print(f"Random Forest Accuracy: {accuracy_score(y_test, y_pred_rf)}")
 
 # Train an SVM model
 print("Training SVM model...")
-svm_model = SVC(class_weight='balanced')
+svm_model = SVC()
 svm_model.fit(X_train, y_train)
 
 # Predictions and accuracy for SVM
