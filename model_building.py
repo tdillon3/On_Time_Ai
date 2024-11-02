@@ -68,16 +68,16 @@ merged_data['delayed'] = merged_data.apply(delay_label, axis=1)
 merged_data.to_csv("merged_flight_weather_data.csv", index=False)
 print("Merged data saved to merged_flight_weather_data.csv")
 
-# Features (input data) and target variable
+# Strictly define feature columns
 feature_columns = ['temperature', 'humidity', 'wind_speed', 'latitude', 'longitude']
-X = merged_data[feature_columns]
+X = merged_data[feature_columns]  # Only use specified columns
 y = merged_data['delayed']
 
 # Split data into training and testing sets (80% train, 20% test)
 print("Splitting data into training and testing sets...")
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train a Random Forest model
+# Train a Random Forest model using only specified columns
 print("Training Random Forest model...")
 rf_model = RandomForestClassifier()
 rf_model.fit(X_train, y_train)

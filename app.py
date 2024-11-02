@@ -34,7 +34,8 @@ def predict():
         prediction_text = "Flight Delay Prediction: Delayed"
     else:
         # Prediction with model if values are within normal range
-        features = [[temperature, humidity, wind_speed, latitude, longitude]]
+        # Adding duplicate latitude and longitude to match model input
+        features = [[temperature, humidity, wind_speed, latitude, latitude, longitude, longitude]]
         prediction = model.predict(features)
         prediction_text = f"Flight Delay Prediction: {'Delayed' if prediction[0] == 1 else 'On Time'}"
 
