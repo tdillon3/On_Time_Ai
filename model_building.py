@@ -1,6 +1,6 @@
 import pandas as pd
 from geopy.distance import geodesic
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
@@ -77,30 +77,53 @@ y = merged_data['delayed']
 print("Splitting data into training and testing sets...")
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train a Random Forest model using only specified columns
-print("Training Random Forest model...")
-rf_model = RandomForestClassifier()
-rf_model.fit(X_train, y_train)
+# Hyperparameter tuning for Random Forest
+print("Tuning Random Forest model...")
+rf_param_grid = {
+    'n_estimators': [50, 100, 200],  # Number of trees in the forest
+    'max_depth': [None, 10, 20, 30],  # Maximum depth of trees
+    'min_samples_split': [2, 5, 10],  # Minimum number of samples to split
+    'min_samples_leaf': [1, 2, 4]  # Minimum number of samples per leaf
+}
 
-# Predictions and accuracy for Random Forest
-y_pred_rf = rf_model.predict(X_test)
-print(f"Random Forest Accuracy: {accuracy_score(y_test, y_pred_rf)}")
+rf_grid_search = GridSearchCV(
+    estimator=RandomForestClassifier(random_state=42),
+    param_grid=rf_param_grid,
+    scoring='accuracy',
+    cv=5,  # 5-fold cross-validation
+    n_jobs=-1
+)
 
-# Train an SVM model
-print("Training SVM model...")
-svm_model = SVC()
-svm_model.fit(X_train, y_train)
+rf_grid_search.fit(X_train, y_train)
+rf_best_model = rf_grid_search.best_estimator_
+print(f"Best Random Forest parameters: {rf_grid_search.best_params_}")
+print(f"Best Random Forest accuracy: {rf_grid_search.best_score_}")
 
-# Predictions and accuracy for SVM
-y_pred_svm = svm_model.predict(X_test)
-print(f"SVM Accuracy: {accuracy_score(y_test, y_pred_svm)}")
+# Hyperparameter tuning for SVM
+print("Tuning SVM model...")
+svm_param_grid = {
+    'C': [0.1, 1, 10, 100],  # Regularization parameter
+    'gamma': [1, 0.1, 0.01, 0.001],  # Kernel coefficient
+    'kernel': ['rbf', 'linear']  # Type of kernel
+}
 
-# Save the trained models to disk
-print("Saving the trained models...")
-joblib.dump(rf_model, 'random_forest_model.pkl')
-joblib.dump(svm_model, 'svm_model.pkl')
+svm_grid_search = GridSearchCV(
+    estimator=SVC(),
+    param_grid=svm_param_grid,
+    scoring='accuracy',
+    cv=5,  # 5-fold cross-validation
+    n_jobs=-1
+)
 
-print("Models have been trained and saved successfully.")
+svm_grid_search.fit(X_train, y_train)
+svm_best_model = svm_grid_search.best_estimator_
+print(f"Best SVM parameters: {svm_grid_search.best_params_}")
+print(f"Best SVM accuracy: {svm_grid_search.best_score_}")
+
+# Save the tuned models to disk
+print("Saving the tuned models...")
+joblib.dump(rf_best_model, 'tuned_random_forest_model.pkl')
+joblib.dump(svm_best_model, 'tuned_svm_model.pkl')
 
 # Save the feature columns to a file for consistency in evaluation
 with open("feature_columns.pkl", "wb") as f:
