@@ -21,7 +21,7 @@ Users can input flight details, including flight number, weather conditions, and
 ---
 
 ## Software Demo Video
-*(Include a link to your software demo video here if available.)*
+*https://www.loom.com/share/51df8d559a7b4c119ee0f8b63c695e13?sid=57481d73-6073-4f1e-872f-7b4d4763a9de*
 
 ---
 
