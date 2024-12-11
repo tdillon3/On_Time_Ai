@@ -1,11 +1,22 @@
-# Flight Delay Prediction Tool
+# ON TIME AI - Flight Delay Prediction Tool
 
 ## Overview
-As a software engineer focused on expanding my knowledge in machine learning and data analysis, this project aims to predict flight delays based on real-time weather conditions and historical flight data. With the increasing demand for accurate scheduling and planning in the aviation industry, understanding potential flight delays can greatly benefit passengers, airlines, and airport operations.
+This project leverages machine learning to predict flight delays based on real-time weather conditions and historical flight data. Designed for both passengers and airlines, the tool aims to provide insights into potential delays, enabling better planning and optimization in the aviation industry.
 
-The dataset used for this analysis is gathered from public APIs, including the **OpenSky Network** (for flight data) and **OpenWeatherMap** (for weather conditions). The data includes key features like flight schedule, airline, airport details, weather parameters (e.g., temperature, wind speed), and historical delay patterns. By leveraging machine learning algorithms, this tool seeks to provide accurate predictions of flight delays based on various external factors.
+The dataset integrates information from public APIs:
+- **OpenSky Network**: Provides real-time flight data.
+- **OpenWeatherMap**: Supplies weather data for the departure location.
 
-The primary goal of this software is to enable users to input relevant flight and weather data, and receive a prediction on whether their flight is likely to be delayed. This tool can assist both passengers in planning and airlines in optimizing their operations.
+Users can input flight details, including flight number, weather conditions, and departure coordinates, into a web interface to receive predictions. By combining weather and flight data, this tool delivers insights into the likelihood of delays under various conditions.
+
+---
+
+## Features
+- **Flight Number Integration**: Predict delays based on specific flights when data is available, or general conditions otherwise.
+- **Real-time API Integration**: Pulls up-to-date flight and weather data from the OpenSky Network and OpenWeatherMap APIs.
+- **Machine Learning Models**: Employs Random Forest and SVM models to predict delays with high accuracy.
+- **Web Interface**: A simple, user-friendly interface built with Flask for easy data entry and prediction display.
+- **Extreme Condition Handling**: Automatically flags extreme weather conditions to predict delays reliably.
 
 ---
 
@@ -14,60 +25,76 @@ The primary goal of this software is to enable users to input relevant flight an
 
 ---
 
-## Data Analysis Results
-This project aimed to answer key questions about flight delay predictions using machine learning. Here are the key insights:
+## Data Analysis Insights
+1. **Primary Factors Influencing Delays**:
+   - Weather conditions, particularly wind speed, humidity, and extreme temperatures.
+   - Flight congestion during peak hours and at major airports.
 
-1. **What are the primary factors influencing flight delays?**
+2. **Model Accuracy**:
+   - The Random Forest model achieves high accuracy in predicting delays, with effective handling of normal scenarios and edge cases.
 
-   **Answer**: The analysis revealed that weather conditions, including wind speed and precipitation, play a significant role in determining whether a flight is delayed. Additionally, flights scheduled during peak travel hours and flights departing from major airports are more prone to delays due to congestion.
-
-2. **How accurate are the flight delay predictions?**
-
-   **Answer**: Using machine learning models like Random Forest, the model achieved reasonable accuracy in predicting flight delays. While the model performed well in general scenarios, unexpected events (such as sudden weather changes or technical issues) still posed challenges for precise predictions.
-
-3. **How does weather affect the likelihood of delays?**
-
-   **Answer**: The machine learning model identified weather parameters, such as wind speed and temperature, as key indicators of potential delays. The model suggests that flights departing under adverse weather conditions have a higher likelihood of experiencing delays, particularly at busy airports with a high volume of traffic.
+3. **Impact of Weather**:
+   - Adverse weather conditions, including high wind speeds and extreme temperatures, significantly increase the likelihood of delays.
 
 ---
 
 ## Development Environment
-**Tools**:  
-The software was developed using **Visual Studio Community** for the backend and data processing, and **Flask** for a simple web-based user interface.
+### Tools and Frameworks
+- **Visual Studio Code**: For development.
+- **Flask**: To build the web interface.
+- **Jupyter Notebook**: For data exploration and visualization.
 
-**Languages and Libraries**:  
-The project was implemented in Python, utilizing the following libraries:
-- **Pandas**: For data manipulation and preprocessing.
-- **Scikit-learn**: For machine learning model implementation.
-- **Requests**: For making API calls to the OpenSky Network and OpenWeatherMap.
-- **Flask**: To build the web interface for user interaction.
+### Languages and Libraries
+- **Python**: Primary language for implementation.
+- **Pandas**: Data manipulation and preprocessing.
+- **Scikit-learn**: Machine learning model implementation.
+- **Requests**: API interaction with OpenSky Network and OpenWeatherMap.
+- **Joblib**: Model serialization and storage.
 
 ---
 
-## Useful Websites
+## Useful Resources
 - [Pandas Documentation](https://pandas.pydata.org/docs/)
-- [Scikit-learn: Machine Learning in Python](https://scikit-learn.org/stable/)
+- [Scikit-learn Documentation](https://scikit-learn.org/stable/)
 - [OpenSky Network API Documentation](https://opensky-network.org/apidoc/)
 - [OpenWeatherMap API Documentation](https://openweathermap.org/api)
 
 ---
 
 ## Future Work
-- **Data Expansion**: Expand the dataset by including more historical flight and weather data from different regions and airports to improve model accuracy and robustness.
-- **Feature Enhancement**: Introduce additional features such as flight path data, real-time congestion levels, and air traffic control logs to provide a more comprehensive prediction model.
-- **User Interface Improvement**: Further develop the user interface to make it more user-friendly. Implement visualizations for users to easily understand the factors contributing to the prediction.
-- **Model Enhancement**: Explore more advanced machine learning models like Gradient Boosting or Neural Networks to improve prediction accuracy, especially in edge cases.
+- **Enhanced Dataset**: Include additional historical data and expand coverage to more airports worldwide.
+- **Feature Expansion**: Integrate flight path data and real-time air traffic updates.
+- **User Interface Enhancements**: Add interactive charts and data visualizations to explain predictions.
+- **Model Optimization**: Explore advanced models like Gradient Boosting or Neural Networks for further accuracy.
 
 ---
 
 ## How to Run
 
 ### Prerequisites:
-- **Python 3.x** installed on your system.
-- API keys for **OpenSky Network** and **OpenWeatherMap**.
-  
+- **Python 3.x** installed.
+- API credentials for **OpenSky Network** and **OpenWeatherMap**.
+
 ### Steps:
-1. Clone the repository.
-2. Install required dependencies:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo-url/flight-delay-prediction.git
+2. Navigate to the project directory:
+   ```bash
+   cd flight-delay-prediction
+3. Install required dependencies:
    ```bash
    pip install -r requirements.txt
+4. Update your API keys in api_integrations.py:
+   ```python
+    OPENSKY_USERNAME = 'your_opensky_username'
+	OPENSKY_PASSWORD = 'your_opensky_password'
+	OPENWEATHER_API_KEY = 'your_openweathermap_api_key'
+5. Run the Flask app:
+   ```bash
+	python app.py
+6. Access the application at http://127.0.0.1:5000 in your browser.
+
+
+## Authors
+- **Tanner Dillon**: Project lead and developer.
